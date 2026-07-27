@@ -75,6 +75,17 @@ cp -a "$DOTFILES_DIR/.config/fetch/." "$HOME/.config/fetch/" 2>/dev/null || true
 echo "[08] Copying ZSH config..."
 cp "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 
+# ── Copy local bin scripts ──
+echo "[08] Copying local bin scripts..."
+mkdir -p "$HOME/.local/bin"
+cp "$DOTFILES_DIR/.local/bin/"* "$HOME/.local/bin/"
+chmod +x "$HOME/.local/bin/"*
+
+# Ensure ~/.local/bin is in PATH
+if ! grep -q '.local/bin' "$HOME/.zshrc"; then
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
+fi
+
 # ── Copy Oh-My-ZSH custom theme ──
 echo "[08] Copying DedSec ZSH theme..."
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"

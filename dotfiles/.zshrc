@@ -40,3 +40,9 @@ export PATH=$PATH:/home/lots/.spicetify
 
 # Cargo (Rust)
 . "$HOME/.cargo/env"
+
+# ── NVIDIA + Proton Gaming Env Vars ──
+export PROTON_ENABLE_NVAPI=1
+export PROTON_ENABLE_NGX_UPDATER=1
+export DXVK_NVAPI_ALLOW_OTHER_EXT=1
+export SteamOS=1
