@@ -81,6 +81,11 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 mkdir -p "$ZSH_CUSTOM"
 cp "$DOTFILES_DIR/.oh-my-zsh/custom/dedsec.zsh-theme" "$ZSH_CUSTOM/dedsec.zsh-theme"
 
+# ── Copy qpwgraph (PipeWire graph) ──
+echo "[08] Copying qpwgraph configs..."
+mkdir -p "$HOME/.config/rncbc.org"
+cp "$DOTFILES_DIR/.config/rncbc.org/qpwgraph.conf" "$HOME/.config/rncbc.org/"
+
 # ── Copy dedsec-apply script ──
 echo "[08] Copying dedsec-apply script..."
 cp "$DOTFILES_DIR/.config/dedsec-apply.sh" "$HOME/.config/dedsec-apply.sh"
