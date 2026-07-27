@@ -30,11 +30,11 @@ sleep 0.1
 #ags -q && ags &
 
 # quit quickshell & relaunch quickshell
-pkill qs && qs &
+pkill qs 2>/dev/null; qs &
 
 # some process to kill
 for pid in $(pidof waybar rofi swaync ags swaybg); do
-  kill -SIGUSR1 "$pid"
+  kill -SIGUSR1 "$pid" 2>/dev/null
   sleep 0.1
 done
 

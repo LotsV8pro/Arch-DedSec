@@ -22,12 +22,13 @@ source $ZSH/oh-my-zsh.sh
 #pokemon-colorscripts --no-title -s -r #without fastfetch
 #pokemon-colorscripts --no-title -s -r | fastfetch -c $HOME/.config/fastfetch/config-pokemon.jsonc --logo-type file-raw --logo-height 10 --logo-width 5 --logo -
 
-# fetch - DedSec spinning skull
+# fetch - DedSec spinning skull (infinite)
 if command -v fetch &>/dev/null; then
-    fetch
+    fetch --infinite
 else
     fastfetch -c $HOME/.config/fastfetch/config.jsonc
 fi
+
 # Set-up FZF key bindings (CTRL R for fuzzy history finder)
 source <(fzf --zsh)
 
@@ -36,7 +37,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
 
-export PATH=$PATH:/home/lots/.spicetify
+export PATH=$PATH:$HOME/.spicetify
 
 # Cargo (Rust)
 . "$HOME/.cargo/env"
