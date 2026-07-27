@@ -1,5 +1,7 @@
 # Arch-DedSec
 
+> **Mainly for personal use.** This is a personal dotfiles/installer setup. I don't assure it will work on other systems or hardware configurations. Use at your own risk.
+
 A fully themed Arch Linux + Hyprland installer with **purple DedSec (ctOS) aesthetics**. Installs everything from a fresh Arch setup — NVIDIA drivers, Hyprland, all desktop apps, and a complete purple-themed configuration.
 
 Based on the original [JaKooLit/Arch-Hyprland](https://github.com/JaKooLit/Arch-Hyprland) — reimagined with a cyberpunk purple theme and optimized for NVIDIA RTX 4070 systems.
