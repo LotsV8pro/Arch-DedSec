@@ -1,37 +1,30 @@
 #!/bin/bash
-# DedSec Arch-Hyprland Auto Installer
-# Run: bash <(curl -s https://raw.githubusercontent.com/LotsV8pro/Arch-DedSec/main/auto-install.sh)
-# Or:  curl -fsSL https://raw.githubusercontent.com/LotsV8pro/Arch-DedSec/main/auto-install.sh | bash
+# Quick installer — run on a fresh Arch server install
+# Downloads and runs the full installer
 
 set -euo pipefail
 
-REPO_URL="https://github.com/LotsV8pro/Arch-DedSec"
-CLONE_DIR="$HOME/Arch-DedSec"
-
-echo "╔══════════════════════════════════════════════╗"
-echo "║  DedSec Arch-Hyprland Auto Installer         ║"
-echo "║  Cloning from GitHub...                      ║"
-echo "╚══════════════════════════════════════════════╝"
+echo "╔══════════════════════════════════════════╗"
+echo "║   Arch DedSec — Quick Installer          ║"
+echo "╚══════════════════════════════════════════╝"
 echo ""
 
-# Check prerequisites
+# Ensure git is installed
 if ! command -v git &>/dev/null; then
-    echo "[!] git is required. Installing..."
-    sudo pacman -S --noconfirm git
+    echo "[i] Installing git..."
+    sudo pacman -S --needed --noconfirm git
 fi
 
-# Clone repo
-if [[ -d "$CLONE_DIR" ]]; then
-    echo "[i] Repo already exists at $CLONE_DIR"
-    read -p "Pull latest changes? [y/N]: " pull
-    if [[ "$pull" == "y" || "$pull" == "Y" ]]; then
-        cd "$CLONE_DIR"
-        git pull
-    fi
+# Clone or update
+REPO_DIR="$HOME/Arch-DedSec"
+if [[ -d "$REPO_DIR" ]]; then
+    echo "[i] Updating existing clone..."
+    cd "$REPO_DIR" && git pull
 else
-    git clone "$REPO_URL" "$CLONE_DIR"
+    echo "[i] Cloning repository..."
+    git clone https://github.com/LotsV8pro/Arch-DedSec.git "$REPO_DIR"
+    cd "$REPO_DIR"
 fi
 
-cd "$CLONE_DIR"
 chmod +x install.sh
 ./install.sh

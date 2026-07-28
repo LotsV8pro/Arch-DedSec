@@ -10,15 +10,17 @@ if pidof rofi > /dev/null; then
 fi
 
 # define the config files
-keybinds_conf="$HOME/.config/hypr/configs/Keybinds.conf"
-user_keybinds_conf="$HOME/.config/hypr/UserConfigs/UserKeybinds.conf"
-laptop_conf="$HOME/.config/hypr/UserConfigs/Laptops.conf"
+keybinds_lua="$HOME/.config/hypr/configs/Keybinds.lua"
+user_keybinds_lua="$HOME/.config/hypr/UserConfigs/UserKeybinds.lua"
+laptop_lua="$HOME/.config/hypr/UserConfigs/Laptops.lua"
 rofi_theme="$HOME/.config/rofi/config-keybinds.rasi"
 msg='☣️ NOTE ☣️: Clicking with Mouse or Pressing ENTER will have NO function'
 
-# collect raw bind lines (strip end-of-line comments) from available files
-files=("$keybinds_conf" "$user_keybinds_conf")
-[[ -f "$laptop_conf" ]] && files+=("$laptop_conf")
+# collect raw bind lines from available files (prefer .lua)
+files=()
+[[ -f "$keybinds_lua" ]] && files+=("$keybinds_lua")
+[[ -f "$user_keybinds_lua" ]] && files+=("$user_keybinds_lua")
+[[ -f "$laptop_lua" ]] && files+=("$laptop_lua")
 
 # Parse binds using the python script for speed
 # The last argument must be the user config for override logic to work correctly

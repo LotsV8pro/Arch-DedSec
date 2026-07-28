@@ -1,20 +1,29 @@
-/* ═══════════════════════════════════════════════════════════════
-   D̷E̷D̷S̷E̷C̷  — Waybar (Flat Purple)
-   ═══════════════════════════════════════════════════════════════ */
+/* D̷E̷D̷S̷E̷C̷ — Waybar (Flat Purple) */
 
-@define-color purple #B44AFF;
-@define-color purple-dim #7B2FBE;
-@define-color purple-dark #4a1d80;
-@define-color bg #0d0a1a;
-@define-color bg-alt #151028;
-@define-color border #3d2a6e;
-@define-color text #D4A5FF;
-@define-color text-dim #6b5a9e;
-@define-color red #ff4488;
-@define-color green #00E5A0;
-@define-color cyan #00D4FF;
-@define-color orange #FF9F43;
-@define-color pink #ff66cc;
+@define-color purple #B8B0C8;
+@define-color purple-dim #787088;
+@define-color purple-dark #383048;
+@define-color purple-light #D8D0E8;
+@define-color bg #141218;
+@define-color bg-alt #1C1A22;
+@define-color bg-light #282430;
+@define-color border #383048;
+@define-color border-light #504860;
+@define-color text #D8D0E8;
+@define-color text-dim #887898;
+@define-color red #C8B8C8;
+@define-color green #C0D0C0;
+@define-color cyan #B8C0D0;
+@define-color orange #D0C0C8;
+@define-color pink #D0B8D0;
+@define-color teal #B8D0C8;
+@define-color magenta #D0B8D0;
+@define-color indigo #9080A8;
+@define-color coral #C8B8C0;
+@define-color lavender #C8B8D8;
+@define-color neon-green #D0E8D0;
+@define-color neon-cyan #D0E0E8;
+@define-color neon-pink #E8D0D8;
 
 * {
     font-family: "JetBrainsMono Nerd Font";
@@ -25,7 +34,6 @@
     padding-bottom: 0px;
 }
 
-/* ── Bar ──────────────────────────────────────────────────────── */
 window#waybar {
     background: @bg;
 }
@@ -42,7 +50,6 @@ tooltip label {
     color: @text;
 }
 
-/* ── Containers — flat, no background ─────────────────────────── */
 .modules-left,
 .modules-right,
 .modules-center {
@@ -50,7 +57,6 @@ tooltip label {
     padding: 0 4px;
 }
 
-/* ── Workspaces ───────────────────────────────────────────────── */
 #workspaces button {
     color: @text-dim;
     background: transparent;
@@ -77,7 +83,6 @@ tooltip label {
     background: @red;
 }
 
-/* ── Modules — colored text, flat ─────────────────────────────── */
 #cpu,
 #custom-gpu,
 #memory,
@@ -98,7 +103,6 @@ tooltip label {
     padding: 0 8px;
 }
 
-/* ── Per-module colors ────────────────────────────────────────── */
 #cpu                    { color: @cyan; }
 #custom-gpu             { color: @green; }
 #memory                 { color: @orange; }
@@ -106,26 +110,24 @@ tooltip label {
 #temperature.critical   { color: @red; }
 #clock                  { color: @purple; font-size: 1.05em; }
 #mpris                  { color: @pink; font-size: 115%; }
-#pulseaudio             { color: @text; }
+#pulseaudio             { color: @teal; }
 #pulseaudio.muted       { color: @text-dim; opacity: 0.5; }
-#bluetooth              { color: @text; }
+#bluetooth              { color: @indigo; }
 #bluetooth.disabled,
 #bluetooth.off          { color: @text-dim; opacity: 0.5; }
 #window                 { color: @text-dim; font-style: italic; }
 #power-profiles-daemon  { color: @green; }
 #custom-menu            { color: @purple; font-size: 1.15em; }
 #custom-updater         { color: @green; }
-#custom-power           { color: @red; }
-#custom-lock            { color: @text; }
+#custom-power           { color: @coral; }
+#custom-lock            { color: @lavender; }
 #custom-nightlight      { color: @orange; }
 
-/* ── Taskbar ──────────────────────────────────────────────────── */
 #wlr-taskbar {
     color: @text;
     padding: 0 8px;
 }
 
-/* ── Taskbar ──────────────────────────────────────────────────── */
 #wlr-taskbar button {
     color: @text-dim;
     background: transparent;
@@ -146,26 +148,22 @@ tooltip label {
     background: @purple-dark;
 }
 
-/* ── Tray ─────────────────────────────────────────────────────── */
 #tray {
     color: @text-dim;
 }
 
-/* ── Notification group ───────────────────────────────────────── */
 #group-notify {
     background: transparent;
     margin: 0;
     padding: 0;
 }
 
-/* ── Sliders ──────────────────────────────────────────────────── */
 #pulseaudio-slider slider {
     min-width: 0px;
     min-height: 0px;
     opacity: 0;
     background-image: none;
     border: none;
-    box-shadow: none;
 }
 
 #pulseaudio-slider trough {

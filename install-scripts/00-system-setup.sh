@@ -1,31 +1,24 @@
 #!/bin/bash
-# Phase 0: System Setup - enable multilib, keyring, etc.
+# Phase 0: System Setup - mirrors, repos, basic tools
 
 set -euo pipefail
 
-echo "[00] System Setup..."
+echo "[00] Setting up system..."
 
 # Enable multilib
-if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+if ! grep -q "^\[multilib\]" /etc/pacman.conf 2>/dev/null; then
     sudo sed -i '/^#\[multilib\]/,+2 s/^#//' /etc/pacman.conf
 fi
 
-# Update keyring and system
-sudo pacman -Syu --noconfirm
-sudo pacman -S --noconfirm archlinux-keyring
-
-# Install yay if missing
-if ! command -v yay &>/dev/null; then
-    echo "[00] Installing yay (AUR helper)..."
-    cd /tmp
-    git clone https://aur.archlinux.org/yay-bin.git
-    cd yay-bin
-    makepkg -si --noconfirm
-    cd -
+# Rate mirrors
+if command -v reflector &>/dev/null; then
+    sudo reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist 2>/dev/null || true
 fi
 
-# Enable systemd services
-sudo systemctl enable --now NetworkManager 2>/dev/null || true
-sudo systemctl enable --now bluetooth 2>/dev/null || true
+# Update system
+sudo pacman -Syu --noconfirm
 
-echo "[00] System setup complete."
+# Essential build tools
+sudo pacman -S --needed --noconfirm base-devel git cmake ninja meson
+
+echo "[00] System setup done."

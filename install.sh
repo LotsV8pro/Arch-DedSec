@@ -5,10 +5,17 @@
 # ██║  ██║██╔══╝  ╚██╗ ██╔╝██╔══╝  ██║╚██╗██║██╔══╝  ██╔══██╗
 # ██████╔╝███████╗ ╚████╔╝ ███████╗██║ ╚████║███████╗██║  ██║
 # ╚═════╝ ╚══════╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
-# DedSec Arch-Hyprland Installer
-# A fully themed Arch Linux + Hyprland setup with purple DedSec aesthetics
 #
-# Usage: ./install.sh
+# Arch DedSec - Hyprland Desktop Installer
+# NVIDIA RTX 4070 + i7-13700KF optimized
+#
+# From minimal Arch to full DedSec desktop in one script.
+#
+# Usage:
+#   git clone https://github.com/LotsV8pro/Arch-DedSec.git
+#   cd Arch-DedSec
+#   chmod +x install.sh
+#   ./install.sh
 
 set -euo pipefail
 
@@ -37,30 +44,20 @@ print_banner() {
 
 EOF
     echo -e "${NC}"
-    echo -e "${CYAN}  Arch Linux + Hyprland | Purple DedSec Theme${NC}"
-    echo -e "${CYAN}  For NVIDIA RTX 4070 + i7-13700KF${NC}"
+    echo -e "${CYAN}  Arch Linux + Hyprland | Full Desktop Environment${NC}"
+    echo -e "${CYAN}  https://github.com/LotsV8pro/Arch-DedSec${NC}"
     echo ""
 }
 
-print_status() {
-    echo -e "${GREEN}[✓]${NC} $1"
-}
-
-print_warn() {
-    echo -e "${YELLOW}[!]${NC} $1"
-}
-
-print_error() {
-    echo -e "${RED}[✗]${NC} $1"
-}
-
-print_info() {
-    echo -e "${BLUE}[i]${NC} $1"
-}
+print_status()   { echo -e "${GREEN}[✓]${NC} $1"; }
+print_warn()     { echo -e "${YELLOW}[!]${NC} $1"; }
+print_error()    { echo -e "${RED}[✗]${NC} $1"; }
+print_info()     { echo -e "${BLUE}[i]${NC} $1"; }
+print_phase()    { echo -e "\n${MAGENTA}═══════════════════════════════════════════${NC}"; echo -e "${MAGENTA}  $1${NC}"; echo -e "${MAGENTA}═══════════════════════════════════════════${NC}\n"; }
 
 check_root() {
     if [[ $EUID -eq 0 ]]; then
-        print_error "Do not run this script as root!"
+        print_error "Do not run this as root!"
         echo "  Run as a regular user with sudo privileges."
         exit 1
     fi
@@ -75,15 +72,15 @@ check_arch() {
 
 check_network() {
     if ! ping -c 1 archlinux.org &>/dev/null; then
-        print_error "No internet connection detected!"
+        print_error "No internet connection!"
         exit 1
     fi
     print_status "Internet connection OK"
 }
 
 enable_multilib() {
-    print_info "Enabling multilib repository..."
-    if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+    print_info "Enabling multilib..."
+    if ! grep -q "^\[multilib\]" /etc/pacman.conf 2>/dev/null; then
         sudo sed -i '/^#\[multilib\]/,+2 s/^#//' /etc/pacman.conf
         sudo pacman -Sy
     fi
@@ -92,7 +89,7 @@ enable_multilib() {
 
 install_yay() {
     if command -v yay &>/dev/null; then
-        print_status "yay is already installed"
+        print_status "yay already installed"
     else
         print_info "Installing yay (AUR helper)..."
         cd /tmp
@@ -103,11 +100,16 @@ install_yay() {
     fi
 }
 
-execute_script() {
-    local script="$1"
-    print_info "Running: $script"
+run_phase() {
+    local num="$1"
+    local script="$2"
+    local desc="$3"
+
+    print_phase "PHASE $num: $desc"
+
     if [[ -f "$SCRIPT_DIR/install-scripts/$script" ]]; then
         bash "$SCRIPT_DIR/install-scripts/$script"
+        print_status "Phase $num complete"
     else
         print_error "Script not found: $script"
         exit 1
@@ -120,93 +122,44 @@ main() {
     check_arch
     check_network
 
-    echo -e "${MAGENTA}The following will be installed:${NC}"
-    echo "  • Hyprland (Wayland compositor)"
-    echo "  • NVIDIA drivers (open-dkms for RTX 4070)"
-    echo "  • Waybar, Rofi, Kitty, Ghostty"
-    echo "  • Cava, Swaync, Wlogout"
-    echo "  • MangoHud + MangoJuice (gaming overlays)"
-    echo "  • Pipewire audio"
-    echo "  • SDDM display manager"
-    echo "  • ZSH + Oh-My-ZSH with DedSec theme"
-    echo "  • All DedSec purple theme dotfiles"
-    echo "  • Flatpak support"
+    echo -e "${CYAN}This installer will set up:${NC}"
     echo ""
-    echo -e "${YELLOW}⚠  This will take a while on a fresh install.${NC}"
-    echo -e "${YELLOW}⚠  A reboot is required after installation.${NC}"
+    echo "  Hyprland + Waybar + Rofi + Kitty terminal"
+    echo "  PipeWire audio + SDDM display manager"
+    echo "  NVIDIA drivers (open-dkms)"
+    echo "  Steam + MangoHud + Gaming tools"
+    echo "  ZSH + Oh-My-ZSH"
+    echo "  All DedSec purple theme dotfiles"
+    echo "  50+ waybar themes, animations, palettes"
+    echo ""
+    echo -e "${YELLOW}  ⚠  Reboot required after installation.${NC}"
+    echo -e "${YELLOW}  ⚠  Your existing configs will be backed up.${NC}"
     echo ""
     read -p "Continue? [y/N]: " confirm
     if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
-        echo "Installation cancelled."
+        echo "Cancelled."
         exit 0
     fi
 
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 1: System Preparation${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "00-system-setup.sh"
+    enable_multilib
+    install_yay
 
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 2: Core Packages${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "01-packages.sh"
-
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 3: Graphics Drivers${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "02-nvidia.sh"
-
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 4: Hyprland & Desktop${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "03-hyprland.sh"
-
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 5: Audio${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "04-pipewire.sh"
-
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 6: Display Manager${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "05-sddm.sh"
-
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 7: Gaming (MangoHud/Steam/Lutris)${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "06-gaming.sh"
-
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 8: Shell (ZSH + Oh-My-ZSH)${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "07-zsh.sh"
-
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 9: DedSec Dotfiles${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "08-dotfiles.sh"
-
-    echo ""
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    echo -e "${MAGENTA}  PHASE 10: Final Setup${NC}"
-    echo -e "${MAGENTA}═══════════════════════════════════════════${NC}"
-    execute_script "09-cleanup.sh"
+    run_phase 0 "00-system-setup.sh" "System Preparation"
+    run_phase 1 "01-packages.sh"    "Core Packages"
+    run_phase 2 "02-aur.sh"         "AUR Packages"
+    run_phase 3 "03-nvidia.sh"      "NVIDIA Drivers"
+    run_phase 4 "04-services.sh"    "Enable Services"
+    run_phase 5 "05-zsh.sh"         "ZSH Shell"
+    run_phase 6 "06-dotfiles.sh"    "Deploy Dotfiles"
+    run_phase 7 "07-cleanup.sh"     "Final Cleanup"
 
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"
     echo -e "${GREEN}  Installation Complete!${NC}"
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"
     echo ""
-    echo -e "  ${CYAN}Reboot your system to start using Hyprland.${NC}"
+    echo -e "  ${CYAN}Reboot to start Hyprland via SDDM.${NC}"
+    echo -e "  ${CYAN}Log: $LOG_FILE${NC}"
     echo ""
 }
 

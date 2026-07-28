@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# This is for changing kb_layouts. Set kb_layouts in "$HOME/.config/hypr/UserConfigs/UserSettings.conf"
+# This is for changing kb_layouts. Set kb_layouts in "$HOME/.config/hypr/UserConfigs/UserSettings.lua"
 
-notif_icon="$HOME/.config/swaync/images/ja.png"
+notif_icon="$HOME/.config/swaync/images/note.png"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 
 # Refined ignore list with patterns or specific device names

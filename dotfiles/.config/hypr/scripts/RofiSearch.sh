@@ -2,7 +2,7 @@
 # For Searching via web browsers
 
 # Define the path to the config file
-config_file=$HOME/.config/hypr/UserConfigs/01-UserDefaults.conf
+config_file=$HOME/.config/hypr/UserConfigs/01-UserDefaults.lua
 if ! command -v jq >/dev/null 2>&1; then
     notify-send -u low "Rofi Search" "jq is required for URL encoding. Please install jq."
     exit 1
@@ -14,11 +14,8 @@ if [[ ! -f "$config_file" ]]; then
     exit 1
 fi
 
-# Process the config file in memory, removing the $ and fixing spaces
-config_content=$(sed 's/\$//g' "$config_file" | sed 's/ = /=/')
-
-# Source the modified content directly from the variable
-eval "$config_content"
+# Extract Search_Engine value from lua file
+Search_Engine=$(grep -oP 'search_engine\s*=\s*"\K[^"]+' "$config_file")
 
 # Check if $term is set correctly
 if [[ -z "$Search_Engine" ]]; then

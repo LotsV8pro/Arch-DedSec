@@ -1,5 +1,5 @@
 #!/bin/bash
-# Phase 1: Core Packages - Hyprland ecosystem + essential apps
+# Phase 1: Core Packages - everything from the actual system
 
 set -euo pipefail
 
@@ -9,165 +9,163 @@ echo "[01] Installing core packages..."
 HYPR=(
     hyprland hyprlock hypridle hyprpolkitagent
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
-    hyprgraphics hyprlang hyprutils hyprcursor
-    xdg-user-dirs
+    hyprgraphics hyprlang hyprutils hyprcursor hyprtoolkit
+    xdg-user-dirs xdg-utils
+    uwsm
 )
 
-# ── Graphics / Vulkan ──
+# ── Graphics / NVIDIA ──
 GRAPHICS=(
     mesa libva-nvidia-driver vulkan-tools
     vulkan-icd-loader lib32-vulkan-icd-loader
-    nvidia-open-dkms nvidia-settings lib32-nvidia-utils
-    egl-wayland
+    nvidia-open-dkms nvidia-settings nvidia-utils lib32-nvidia-utils
+    egl-wayland egl-wayland2
+    libva libvdpau
 )
 
-# ── Waybar / Panels ──
-BAR=(
-    waybar
-)
+# ── Waybar ──
+BAR=( waybar )
 
-# ── App Launcher / Menu ──
-LAUNCHER=(
-    rofi
-)
+# ── App Launcher ──
+LAUNCHER=( rofi )
 
 # ── Terminal ──
-TERMINAL=(
-    kitty
-)
+TERMINAL=( kitty kitty-shell-integration kitty-terminfo )
 
 # ── File Manager ──
 FILEMANAGER=(
     thunar thunar-archive-plugin thunar-volman
-    gvfs gvfs-mtp
+    gvfs gvfs-mtp tumbler
 )
 
-# ── Notification / OSD ──
-NOTIFY=(
-    swaync
-)
+# ── Notification ──
+NOTIFY=( swaync )
 
-# ── Audio ──
+# ── Audio (PipeWire) ──
 AUDIO=(
     pipewire pipewire-alsa pipewire-audio pipewire-pulse
     wireplumber
     pamixer pavucontrol
     playerctl
+    libpulse
 )
 
 # ── Display Manager ──
-DM=(
-    sddm
-)
+DM=( sddm )
 
-# ── Screenshot / Screen Recording ──
+# ── Screenshot / Recording ──
 SCREENSHOT=(
     grim slurp swappy
     obs-studio obs-studio-plugin-browser obs-pipewire-audio-capture-git
 )
 
-# ── Theming / Appearance ──
+# ── Theming ──
 THEME=(
     kvantum qt5ct qt6ct
     nwg-look nwg-displays
     gtk-engine-murrine
+    adwaita-icon-theme adwaita-fonts
 )
 
 # ── Fonts ──
 FONTS=(
-    noto-fonts noto-fonts-emoji
+    noto-fonts noto-fonts-emoji noto-fonts-cjk
     ttf-jetbrains-mono ttf-jetbrains-mono-nerd
     ttf-fira-code ttf-fantasque-nerd
     ttf-dejavu ttf-droid ttf-liberation
     ttf-victor-mono otf-font-awesome
     adobe-source-code-pro-fonts
+    gnu-free-fonts
 )
 
 # ── System Utils ──
 UTILS=(
-    fastfetch inxi btop htop
-    lsd fzf jq ripgrep
-    wget curl git rsync unzip
-    brightnessctl
-    stow
-    base-devel
-    pacman-contrib
-    sbctl
+    fastfetch inxi btop lsd fzf jq ripgrep
+    wget curl git rsync unzip p7zip xarchiver
+    brightnessctl stow bc tree
+    base-devel pacman-contrib sbctl
+    nano neovim
+    lsof htop procps-ng
 )
 
 # ── Media ──
 MEDIA=(
-    mpv mpv-mpris ffmpeg ffmpegthumbnailer
-    loupe
-    mousepad
+    mpv mpv-mpris ffmpeg ffmpeg4.4 ffmpegthumbnailer
+    loupe mousepad imagemagick
+)
+
+# ── Bluetooth ──
+BLUETOOTH=(
+    blueman bluez bluez-utils
+)
+
+# ── Network ──
+NETWORK=(
+    networkmanager network-manager-applet nm-connection-manager
+    wpa_supplicant
 )
 
 # ── Misc Desktop ──
 MISC=(
-    wlogout
-    cliphist
-    wl-clipboard
-    polkit
+    wlogout cliphist wl-clipboard
+    polkit polkit-qt6
     power-profiles-daemon
-    network-manager-applet
-    blueman bluez bluez-utils
-    gvfs
-    tumbler
-    xdg-utils
+    xdg-desktop-portal
     catimg
-    neovim
-)
-
-# ── Gaming Prerequisites ──
-GAMING_PRE=(
-    gamemode
-    lib32-gamemode 2>/dev/null || true
-    libratbag
-    piper
-)
-
-# ── Flatpak ──
-FLATPAK=(
+    zsh zsh-completions
     flatpak
 )
 
-# Install all package groups
+# ── Gaming ──
+GAMING=(
+    steam steam-devices
+    gamemode
+    libratbag
+    gamescope
+    mangohud
+    lutris wine winetricks
+    protontricks
+)
+
+# ── ASUS / Hardware ──
+HARDWARE=(
+    asusctl
+)
+
+# ── Laptop (install but some may not apply) ──
+LAPTOP=(
+    power-profiles-daemon
+)
+
+# ── 32-bit libs for gaming ──
+LIBS32=(
+    lib32-gamemode lib32-mangohud
+    lib32-libva lib32-vulkan-intel
+    lib32-mesa lib32-glu
+)
+
+# ── Build / Dev tools ──
+DEV=(
+    cmake ninja meson
+    python python-pip
+    deno
+)
+
 ALL_PACKAGES=("${HYPR[@]}" "${GRAPHICS[@]}" "${BAR[@]}" "${LAUNCHER[@]}" \
     "${TERMINAL[@]}" "${FILEMANAGER[@]}" "${NOTIFY[@]}" "${AUDIO[@]}" \
     "${DM[@]}" "${SCREENSHOT[@]}" "${THEME[@]}" "${FONTS[@]}" \
-    "${UTILS[@]}" "${MEDIA[@]}" "${MISC[@]}" "${GAMING_PRE[@]}" "${FLATPAK[@]}")
+    "${UTILS[@]}" "${MEDIA[@]}" "${BLUETOOTH[@]}" "${NETWORK[@]}" \
+    "${MISC[@]}" "${GAMING[@]}" "${HARDWARE[@]}" "${LAPTOP[@]}" \
+    "${LIBS32[@]}" "${DEV[@]}")
 
-# Filter out packages that don't exist
-VALID_PACKAGES=()
+# Filter valid packages
+VALID=()
 for pkg in "${ALL_PACKAGES[@]}"; do
-    if pacman -Si "$pkg" &>/dev/null || yay -Si "$pkg" &>/dev/null; then
-        VALID_PACKAGES+=("$pkg")
+    if pacman -Si "$pkg" &>/dev/null; then
+        VALID+=("$pkg")
     fi
 done
 
-sudo pacman -S --needed --noconfirm "${VALID_PACKAGES[@]}" 2>/dev/null || true
-
-# Install AUR-only packages via yay
-AUR_PACKAGES=(
-    zen-browser-bin
-    discord
-    spotify
-    github-cli
-    yay-bin
-    linux-wallpaperengine-bin
-    cava
-    deepcool-digital-linux-git
-    openrgb
-    vial-appimage
-    noise-suppression-for-voice
-    quickshell
-    zram-generator
-)
-
-yay -S --needed --noconfirm "${AUR_PACKAGES[@]}" 2>/dev/null || true
-
-# Flatpak setup
-sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install --assumeyes flathub com.vysp3r.ProtonPlus net.davidotek.pupgui2 2>/dev/null || true
+sudo pacman -S --needed --noconfirm "${VALID[@]}" 2>/dev/null || true
 
 echo "[01] Core packages installed."

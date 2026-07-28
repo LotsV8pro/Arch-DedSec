@@ -1,124 +1,191 @@
-# Arch-DedSec
+# Arch DedSec
 
-> **Mainly for personal use.** This is a personal dotfiles/installer setup. I don't assure it will work on other systems or hardware configurations. Use at your own risk.
+> Arch Linux + Hyprland — Full purple DedSec desktop, from minimal install.
 
-A fully themed Arch Linux + Hyprland installer with **purple DedSec (ctOS) aesthetics**. Installs everything from a fresh Arch setup — NVIDIA drivers, Hyprland, all desktop apps, and a complete purple-themed configuration.
+![Hyprland](https://img.shields.io/badge/Hyperland-purple?style=flat-square&logo=hyprland)
+![Arch](https://img.shields.io/badge/Arch%20Linux-blue?style=flat-square&logo=archlinux)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-Based on the original [JaKooLit/Arch-Hyprland](https://github.com/JaKooLit/Arch-Hyprland) — reimagined with a cyberpunk purple theme and optimized for NVIDIA RTX 4070 systems.
+## What you get
 
-## What Gets Installed
+One script installs a complete desktop from a minimal Arch server install:
+
+- **Hyprland** — Wayland compositor with animations, blur, shadows
+- **Waybar** — 50+ themes (pill, glass, minimal, wallust, catppuccin...)
+- **Rofi** — App launcher with custom DedSec theme
+- **Kitty** — GPU-accelerated terminal
+- **PipeWire** — Full audio stack
+- **SDDM** — Display manager
+- **Steam + MangoHud** — Gaming ready (no individual games bundled)
+- **ZSH + Oh-My-ZSH** — Shell with autosuggestions & syntax highlighting
+- **DedSec Purple Theme** — Monochrome light purple palette, custom animations, lock screen
+- **50+ Waybar layouts** — TOP, BOT, LEFT, RIGHT, glass, vertical...
+- **Wallpaper system** — Folder-based browser with swww transitions, effects, randomizer
+- **Preset manager** — Save/load full desktop themes (palette + waybar + wallpaper + decorations)
+- **ASUS ROG Raikiri** controller support — Guide button launches Steam Big Picture
+
+## Requirements
+
+- Arch Linux (minimal install, only base + linux + linux-firmware)
+- Internet connection
+- sudo privileges
+- NVIDIA RTX GPU (optimized for 4070, works with others)
+
+## Install
+
+Boot into a minimal Arch install (no desktop, just TTY):
+
+```bash
+# 1. Get the essentials
+pacman -S --needed git
+git clone https://github.com/LotsV8pro/Arch-DedSec.git
+cd Arch-DedSec
+
+# 2. Run the installer
+chmod +x install.sh
+./install.sh
+
+# 3. Reboot
+sudo reboot
+```
+
+Select **Hyprland** in SDDM and log in.
+
+## What gets installed
+
+<details>
+<summary><b>Core Packages (pacman)</b></summary>
 
 | Category | Packages |
 |----------|----------|
-| **Desktop** | Hyprland, Waybar, Rofi, Kitty, Ghostty, Swaync, Wlogout |
-| **Graphics** | NVIDIA open-dkms, Vulkan, EGL, PipeWire |
-| **Audio** | PipeWire, WirePlumber, Pamixer, Pavucontrol, Playerctl |
-| **File Manager** | Thunar, GVFS, SDDM display manager |
-| **Gaming** | Steam, Lutris, MangoHud, MangoJuice, Gamescope, Wine, ProtonPlus |
-| **Utilities** | Fastfetch, Btop, FZF, Ripgrep, Neovim, Git, Make, base-devel |
-| **Fonts** | JetBrains Mono Nerd, Fantasque Nerd, Noto, Fira Code, Victor Mono |
-| **Themes** | Kvantum, Qt5/6ct, nwg-look, GTK |
-| **Shell** | ZSH + Oh-My-ZSH with DedSec theme |
-| **AUR** | zen-browser, Discord, Spotify, GitHub CLI, OpenRGB, Quickshell |
+| **Hyprland** | hyprland, hyprlock, hypridle, hyprpolkitagent, hyprgraphics, hyprlang, hyprutils, hyprcursor, hyprtoolkit, xdg-desktop-portal-hyprland |
+| **Graphics** | mesa, nvidia-open-dkms, nvidia-utils, libva-nvidia-driver, vulkan-icd-loader, egl-wayland |
+| **Waybar** | waybar |
+| **Launcher** | rofi |
+| **Terminal** | kitty, kitty-shell-integration |
+| **File Manager** | thunar, thunar-archive-plugin, thunar-volman, gvfs |
+| **Audio** | pipewire, pipewire-alsa, pipewire-pulse, wireplumber, pamixer, pavucontrol, playerctl |
+| **Display** | sddm |
+| **Screenshot** | grim, slurp, swappy, obs-studio |
+| **Theming** | kvantum, qt5ct, qt6ct, nwg-look, nwg-displays |
+| **Fonts** | noto-fonts, noto-fonts-emoji, ttf-jetbrains-mono-nerd, ttf-fira-code, otf-font-awesome |
+| **Utils** | fastfetch, btop, lsd, fzf, jq, ripgrep, neovim, stow, unzip |
+| **Media** | mpv, ffmpeg, loupe, mousepad |
+| **Bluetooth** | blueman, bluez |
+| **Network** | networkmanager, network-manager-applet |
+| **Desktop** | wlogout, cliphist, wl-clipboard, polkit, swaync |
+| **Gaming** | steam, gamemode, gamescope, mangohud, lutris, wine |
+| **Dev** | cmake, ninja, meson, python, deno |
 
-## Quick Install
+</details>
 
-```bash
-bash <(curl -s https://raw.githubusercontent.com/LotsV8pro/Arch-DedSec/main/auto-install.sh)
-```
+<details>
+<summary><b>AUR Packages (yay)</b></summary>
 
-## Manual Install
+- `zen-browser-bin` — Privacy browser
+- `discord` — Chat
+- `spotify` — Music
+- `github-cli` — GitHub CLI
+- `linux-wallpaperengine-bin` — Animated wallpapers
+- `cava` — Audio visualizer
+- `noise-suppression-for-voice` — RNNoise
+- `deepcool-digital-linux-git` — DeepCool controller
+- `arctis-sound-manager` — SteelSeries audio
+- `quickshell` — Quickshell overview
+- `zram-generator` — ZRAM swap
 
-```bash
-git clone https://github.com/LotsV8pro/Arch-DedSec.git
-cd Arch-DedSec
-chmod +x install.sh
-./install.sh
-```
+</details>
 
 ## Keybinds
 
 | Key | Action |
 |-----|--------|
-| `Super + Return` | Kitty terminal |
-| `Super + R` | Rofi launcher |
-| `Super + E` | Thunar file manager |
-| `Super + T` | Reload Hyprland |
-| `Super + Shift + E` | Quick settings |
-| `Super + Q` | Close window |
-| `Super + L` | Hyprlock |
-| `Super + P` | Pseudo tiling |
-| `Super + J` | Toggle split |
-| `Super + F` | Fullscreen |
-| `Super + V` | Toggle floating |
-| `Super + D` | Toggle dwindle |
+| `SUPER + H` | Keybind hints |
+| `SUPER + Return` | Terminal (Kitty) |
+| `SUPER + D` | App launcher (Rofi) |
+| `SUPER + W` | Wallpaper picker (with folders) |
+| `SUPER + P` | Palette color editor |
+| `SUPER + CTRL + P` | Preset manager (save/load themes) |
+| `SUPER + E` | File manager |
+| `SUPER + B` | Browser |
+| `SUPER + S` | Web search |
+| `SUPER + N` | Night mode (Hyprsunset) |
+| `SUPER + T` | Reload config |
+| `SUPER + SHIFT + Q` | Kill window |
+| `SUPER + A` | Overview |
+| `CTRL + ALT + L` | Lock screen |
+| `CTRL + ALT + P` | Power menu (Wlogout) |
 
-## Theme
+Full keybind list: press `SUPER + H` after install.
 
-The purple DedSec theme applies to:
-- **Waybar** — dark top/bottom bars with purple accents
-- **Rofi** — centered launcher with purple borders
-- **Kitty / Ghostty** — purple background, colored tabs
-- **Cava** — purple gradient audio visualizer
-- **Hyprland** — purple borders, smooth animations
-- **Swaync** — purple notification cards
-- **Hyprlock** — purple lock screen
-- **ZSH prompt** — `λ` in mint green, directory in purple
+## Theming
 
-## Repository Structure
+### Palette Editor (`SUPER + P`)
+
+Pre-built palettes: Monochrome (light purple), Solarized, Catppuccin Mocha, Tokyo Night, Nord, Dracula, Everforest, Rose Pine, Gruvbox, Obsidian, and more.
+
+### Preset Manager (`SUPER + CTRL + P`)
+
+Save your entire desktop setup (palette + waybar style + layout + wallpaper + decorations) as a named preset. Load it back anytime.
+
+### Waybar Themes (`SUPER + CTRL + B`)
+
+50+ CSS themes including:
+- Pill, Glass, Minimal, Catppuccin, Wallust
+- Vertical, Horizontal, Top, Bottom, Left, Right
+- Dynamic Island inspired, DedSec branded
+
+## Structure
 
 ```
-Arch-DedSec/
-├── install.sh              # Main installer
-├── auto-install.sh         # curl one-liner
-├── README.md
-├── LICENSE
-├── assets/
-│   └── images/             # Screenshots
-├── dotfiles/               # All config files
-│   ├── .config/
-│   │   ├── hypr/           # Hyprland configs
-│   │   ├── waybar/         # Waybar + presets
-│   │   ├── rofi/           # Rofi themes
-│   │   ├── kitty/          # Kitty config
-│   │   ├── ghostty/        # Ghostty config
-│   │   ├── cava/           # Cava config
-│   │   ├── swaync/         # Swaync notifications
-│   │   ├── wlogout/        # Logout menu
-│   │   ├── wallust/        # Wallust config
-│   │   ├── fastfetch/      # Fastfetch config
-│   │   ├── fetch/          # Fetch config
-│   │   └── dedsec-apply.sh # Theme re-apply script
-│   ├── .zshrc
-│   └── .oh-my-zsh/
-│       └── custom/
-│           └── dedsec.zsh-theme
-└── install-scripts/
-    ├── 00-system-setup.sh  # multilib, yay, keyring
-    ├── 01-packages.sh      # all packages
-    ├── 02-nvidia.sh        # NVIDIA RTX drivers
-    ├── 03-hyprland.sh      # Hyprland core
-    ├── 04-pipewire.sh      # Audio
-    ├── 05-sddm.sh          # Display manager
-    ├── 06-gaming.sh        # MangoHud, Steam, Lutris
-    ├── 07-zsh.sh           # ZSH + plugins
-    ├── 08-dotfiles.sh      # Copy configs
-    └── 09-cleanup.sh       # Final cleanup
+~/.config/hypr/
+├── hyprland.lua           # Main config (Lua)
+├── hyprland.conf          # Main config (legacy .conf)
+├── configs/               # Default configs
+├── UserConfigs/           # User overrides
+├── scripts/               # 57 scripts
+├── UserScripts/           # User scripts
+├── animations/            # 16 animation presets
+└── wallust/               # Wallust colors
+
+~/.config/waybar/
+├── config                 # Active layout
+├── configs/               # 40+ layout variants
+├── style/                 # 50+ CSS themes
+└── Modules*/              # Module definitions
+
+~/.config/rofi/
+├── config*.rasi           # Rofi configs per use
+├── themes/                # DedSec themes
+└── wallust/               # Wallust integration
+
+~/.config/dedsec-palette/
+├── colors.conf            # Active palette
+├── palette-menu.sh        # Palette editor
+├── apply-colors.sh        # Apply palette to everything
+└── presets/               # Saved presets
 ```
 
-## Requirements
+## NVIDIA Setup
 
-- Fresh Arch Linux install (no DE/WM)
-- Internet connection
-- User with sudo privileges
-- NVIDIA GPU (RTX 4070 optimized, works with any NVIDIA)
+The installer configures:
+- `nvidia-open-dkms` with DKMS
+- `nvidia-persistenced` service
+- `LIBVA_DRIVER_NAME=nvidia` env
+- `__GLX_VENDOR_LIBRARY_NAME=nvidia` env
+- `NVD_BACKEND=direct` for hardware decoding
+- mkinitcpio with nvidia modules
 
-## Post-Install
+## Updating
 
-After reboot:
-- Install the SDDM DedSec theme: `sudo bash ~/.config/dedsec-apply.sh`
-- Set your wallpaper: `hyprctl hyprpaper preload ~/Wallpaper/name.png`
+```bash
+cd ~/Arch-DedSec
+git pull
+./install.sh
+```
+
+Existing configs are backed up to `~/.config/dotfiles-backup/`.
 
 ## License
 
-MIT
+MIT — Do whatever you want.

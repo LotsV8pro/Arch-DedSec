@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Game Mode. Toggles visuals + CPU/GPU performance
 
-notif="$HOME/.config/swaync/images/ja.png"
+notif="$HOME/.config/swaync/images/note.png"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 
 HYPRGAMEMODE=$(hyprctl getoption animations:enabled | awk 'NR==1{print $2}')

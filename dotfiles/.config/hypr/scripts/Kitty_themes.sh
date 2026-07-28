@@ -122,7 +122,7 @@ while true; do
     for pid_kitty in $(pidof kitty); do if [ -n "$pid_kitty" ]; then kill -SIGUSR1 "$pid_kitty"; fi; done
     break
   elif [ $rofi_exit_code -eq 10 ]; then # This is the exit code for -kb-custom-1
-    notify_user "$iDIR/ja.png" "Kitty Theme Applied" "$theme_to_preview_now"
+    notify_user "$iDIR/note.png" "Kitty Theme Applied" "$theme_to_preview_now"
     break
   else
     notify_user "$iDIR/error.png" "Rofi Error" "Unexpected Rofi exit ($rofi_exit_code). Reverting."

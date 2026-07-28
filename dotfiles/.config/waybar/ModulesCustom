@@ -125,12 +125,55 @@
 },
 
 "custom/menu": {
-	"format": "  ",
+	"format": "  ",
 	"on-click": "pkill rofi || rofi -show drun -modi run,drun,filebrowser,window",
 	"on-click-middle": "$HOME/.config/hypr/UserScripts/WallpaperSelect.sh",
 	"on-click-right": "$HOME/.config/hypr/scripts/WaybarLayout.sh",
 	"tooltip": true,
 	"tooltip-format": "Left Click: Rofi Menu\nMiddle Click: Wallpaper Menu\nRight Click: Waybar Layout Menu",
+},
+
+// ── D̷E̷D̷S̷E̷C̷ Launcher (Arch logo) ─────────────────────────────
+"custom/launcher": {
+	"format": " {}",
+	"on-click": "pkill rofi || rofi -show drun -modi run,drun,filebrowser,window",
+	"on-click-right": "$HOME/.config/hypr/scripts/WaybarLayout.sh",
+	"tooltip": true,
+	"tooltip-format": "Left Click: App Launcher\nRight Click: Waybar Layout",
+},
+
+// ── D̷E̷D̷S̷E̷C̷ Updates Counter ──────────────────────────────────
+"custom/updates": {
+	"format": " {}",
+	"exec": "checkupdates 2>/dev/null | wc -l || echo 0",
+	"exec-if": "which checkupdates >/dev/null 2>&1",
+	"interval": 43200,
+	"on-click": "$HOME/.config/hypr/scripts/Distro_update.sh",
+	"tooltip": true,
+	"tooltip-format": "Left Click: Update System\nPending updates: {}",
+},
+
+// ── D̷E̷D̷S̷E̷C̷ Notification Bell ───────────────────────────────
+"custom/notification": {
+	"tooltip": true,
+	"tooltip-format": "Left Click: Notification Center\nRight Click: Do Not Disturb",
+	"format": "{} {icon} ",
+	"format-icons": {
+		"notification": "<span foreground='red'><sup> </sup></span>",
+		"none": "",
+		"dnd-notification": "<span foreground='red'><sup> </sup></span>",
+		"dnd-none": "",
+		"inhibited-notification": "<span foreground='red'><sup> </sup></span>",
+		"inhibited-none": "",
+		"dnd-inhibited-notification": "<span foreground='red'><sup> </sup></span>",
+		"dnd-inhibited-none": ""
+	},
+	"return-type": "json",
+	"exec-if": "which swaync-client",
+	"exec": "swaync-client -swb",
+	"on-click": "sleep 0.1 && swaync-client -t -sw",
+	"on-click-right": "swaync-client -d -sw",
+	"escape": true,
 },
 // This is a custom cava visualizer
 "custom/cava_mviz": {

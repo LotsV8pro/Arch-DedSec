@@ -10,9 +10,9 @@ fi
 iDIR="$HOME/.config/swaync/images"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 monitor_dir="$HOME/.config/hypr/Monitor_Profiles"
-target="$HOME/.config/hypr/monitors.conf"
+target="$HOME/.config/hypr/monitors.lua"
 rofi_theme="$HOME/.config/rofi/config-Monitors.rasi"
-msg='❗NOTE:❗ This will overwrite $HOME/.config/hypr/monitors.conf'
+msg='❗NOTE:❗ This will overwrite $HOME/.config/hypr/monitors.lua'
 
 # Define the list of files to ignore
 ignore_files=(
@@ -32,9 +32,10 @@ chosen_file=$(echo "$mon_profiles_list" | rofi -i -dmenu -config $rofi_theme -me
 
 if [[ -n "$chosen_file" ]]; then
     full_path="$monitor_dir/$chosen_file.conf"
+    # Monitor profiles are in .conf format, copy as-is (nwg-displays generates .conf)
     cp "$full_path" "$target"
     
-    notify-send -u low -i "$iDIR/ja.png" "$chosen_file" "Monitor Profile Loaded"
+    notify-send -u low -i "$iDIR/note.png" "$chosen_file" "Monitor Profile Loaded (restart Hyprland to apply)"
 fi
 
 sleep 1

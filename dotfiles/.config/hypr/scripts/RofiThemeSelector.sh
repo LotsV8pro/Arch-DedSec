@@ -141,7 +141,7 @@ while true; do
     echo "$original_rofi_config_content_backup" >"$ROFI_CONFIG_FILE"
     break
   elif [ $rofi_exit_code -eq 10 ]; then # Custom bind 1 (Ctrl+S)
-    notify_user "$IDIR/ja.png" "Rofi Theme Applied" "$(basename "$theme_to_preview_now" .rasi)"
+    notify_user "$IDIR/note.png" "Rofi Theme Applied" "$(basename "$theme_to_preview_now" .rasi)"
     break
   else # Error or unexpected exit code
     notify_user "$IDIR/error.png" "Rofi Error" "Unexpected Rofi exit ($rofi_exit_code). Reverting."

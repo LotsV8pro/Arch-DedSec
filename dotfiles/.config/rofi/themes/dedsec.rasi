@@ -15,16 +15,18 @@ configuration {
 }
 
 * {
-    bg:             #0d0a1aee;
-    bg-alt:         #1a1030;
-    fg:             #D4A5FF;
-    fg-dim:         #7B6B9E;
-    purple:         #B44AFF;
-    purple-dim:     #7B2FBE;
-    purple-dark:    #4a1d80;
-    light:          #D4A5FF;
-    selected:       #B44AFF22;
-    urgent:         #ff4488;
+    bg:             #141218ee;
+    bg-alt:         #1C1A22;
+    fg:             #D8D0E8;
+    fg-dim:         #887898;
+    purple:         #B8B0C8;
+    purple-dim:     #787088;
+    purple-dark:    #383048;
+    light:          #D8D0E8;
+    selected:       #B8B0C822;
+    urgent:         #C8B8C8;
+    teal:           #B8D0C8;
+    magenta:        #D0B8D0;
 }
 
 window {

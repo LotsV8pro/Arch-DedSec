@@ -125,5 +125,5 @@ if [ -e \"$sddm_simple/Backgrounds/default.png\" ]; then
   sudo cp -f \"$wallpaper_path\" \"$sddm_simple/Backgrounds/default.png\"
 fi
 
-notify-send -i \"$iDIR/ja.png\" \"SDDM\" \"Background SET\"
+notify-send -i \"$iDIR/note.png\" \"SDDM\" \"Background SET\"
 "

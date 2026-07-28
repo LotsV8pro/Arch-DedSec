@@ -45,16 +45,16 @@ main() {
         # Pick a random theme from the original themes_array (excluding "Random")
         random_theme=${themes_array[$((RANDOM % (${#themes_array[@]} - 1) + 1))]}
         theme_to_set="$random_theme"
-        notify-send -i "$iDIR/ja.png" "Random theme:" "selected: $random_theme"
+        notify-send -i "$iDIR/note.png" "Random theme:" "selected: $random_theme"
     else
         # Set theme to the selected choice
         theme_to_set="$choice"
-        notify-send -i "$iDIR/ja.png" "Theme selected:" "$choice"
+        notify-send -i "$iDIR/note.png" "Theme selected:" "$choice"
     fi
 
     if [ -f "$zsh_path" ]; then
         sed -i "s/^$var_name=.*/$var_name=\"$theme_to_set\"/" "$zsh_path"
-        notify-send -i "$iDIR/ja.png" "OMZ theme" "applied. restart your terminal"
+        notify-send -i "$iDIR/note.png" "OMZ theme" "applied. restart your terminal"
     else
         notify-send -i "$iDIR/error.png" "E-R-R-O-R" "~.zshrc file not found!"
     fi
